@@ -1,8 +1,8 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-TOKEN = "7976746285:AAE_-QVN_jebLuznEGej2xd_DgSQzrW3sj0"
-DRIVER_GROUP = -1001234567890  # Keyinroq o'zgartiramiz
+TOKEN = "7976746285:AAFV0-Q2wWIFV4YxC5eRLKIseJd2PP-L5zs"
+DRIVER_GROUP = -1001234567890
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["🚕 Taksi chaqirish"]]
@@ -15,16 +15,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
     user = update.message.from_user
-
     if text == "🚕 Taksi chaqirish":
-        await update.message.reply_text("📍 Manzilingizni yuboring (yoki lokatsiya):")
+        await update.message.reply_text("📍 Manzilingizni yuboring:")
         context.user_data['waiting'] = 'location'
-
     elif context.user_data.get('waiting') == 'location':
         location = text
-        user_info = f"🚕 Yangi buyurtma!\n👤 Mijoz: {user.first_name}\n📍 Manzil: {location}\n📞 Telefon: @{user.username}"
+        user_info = f"🚕 Yangi buyurtma!\n👤 Mijoz: {user.first_name}\n📍 Manzil: {location}\n📞 @{user.username}"
         await context.bot.send_message(chat_id=DRIVER_GROUP, text=user_info)
-        await update.message.reply_text("✅ Buyurtmangiz yuborildi! Haydovchi tez orada bog'lanadi.")
+        await update.message.reply_text("✅ Buyurtmangiz yuborildi!")
         context.user_data['waiting'] = None
 
 def main():
